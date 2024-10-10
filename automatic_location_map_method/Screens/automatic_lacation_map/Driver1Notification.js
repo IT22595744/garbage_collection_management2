@@ -1,65 +1,110 @@
-import React from "react";
-import {Image,StyleSheet,Platform,View,Text,TouchableOpacity} from "react-native";
-import Icon from "react-native-vector-icons/MaterialIcons";
+import React, { useState, useEffect } from 'react';
+import { Image, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Icon1 from "react-native-vector-icons/MaterialIcons";
+// import { fetchPendingRequests, acceptRequest } from './Request'; // Import the functions from Request.js
+import img1 from '../../assets/images/profile1.jpg';
+import img2 from '../../assets/images/profile2.jpg';
+import img3 from '../../assets/images/profile3.png';
 
-export default function Driver1Notification({route}) {
-  // const {name,subTotal,deliveryCharge} =route.params;
+export default function Driver1Notification({ navigation }) {
+  const [requests, setRequests] = useState([
+    
+      { id: 1, name: 'Samudhi', location: '123 Main St', image: img1, status: 'pending' },
+      { id: 2, name: 'Fernando', location: '456 Elm St', image: img2, status: 'pending' },
+      { id: 3, name: 'Ilyana Rose', location: '789 Pine St', image: img3, status: 'pending' },
+    
+  ]);
+
+  // useEffect(() => {
+  //   const fetchRequests = async () => {
+  //     try {
+  //       const requestsList = await fetchPendingRequests();
+  //       setRequests(requestsList);
+  //     } catch (error) {
+  //       console.error("Error fetching requests: ", error);
+  //     }
+  //   };
+
+  //   fetchRequests();
+  // }, []);
+
+  // const handleAccept = async (id) => {
+  //   try {
+  //     await acceptRequest(id);
+  //     const updatedRequests = requests.map((request) =>
+  //       request.id === id ? { ...request, accepted: true } : request
+  //     );
+  //     setRequests(updatedRequests);
+
+  //     const acceptedRequest = updatedRequests.find(request => request.id === id);
+  //     navigation.navigate('Progresspage', { acceptedRequest });
+  //   } catch (error) {
+  //     console.error("Error accepting request: ", error);
+  //   }
+  // };
+  const handleAccept = (id) => {
+    console.log("kl")
+    const res = requests.map((request) =>
+      request.id === id ? { ...request, status: 'accepted' } : request
+    )
+
+    console.log("res",res)
+    setRequests(res);
+    // setRequests((prevRequests) =>
+      
+    // );
+  };
+
+  const navigateToProgressPage = () => {
+    const acceptedRequests = requests.filter(request => request.accepted);
+    navigation.navigate('Progresspage', { acceptedRequests });
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.welcometext}>Hi,Rock Lee</Text>
-      <Icon name="location-on" size={25} style={styles.loc} />
-      <Text style={styles.notifiicon} size={50}>
-        🔔
-      </Text>
+      <View style={styles.header}>
+        <Text style={styles.welcometext}>Hi, Rock Lee</Text>
+        <TouchableOpacity style={styles.progressBarIcon} onPress={navigateToProgressPage}>
+          <Icon name="progress-check" size={30} color="#0000ff" />
+        </TouchableOpacity>
+      </View>
+      <Icon1 name="location-on" size={25} style={styles.loc} />
+      <Text style={styles.notifiicon}>🔔</Text>
       <Text style={styles.not}>Notification</Text>
-      <View style={styles.card1}>
-        <Text style={styles.name}>samudhi</Text>
-        
-        <Image source={require('../../assets/images/profile1.jpg')}
-        style={styles.prof}/>
-        <Icon name="location-on" size={25} style={styles.loc2} />
-        <TouchableOpacity style={styles.acceptbtn}>
-          <Text style={styles.acceptbtntxt}>Accept</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.denybtn}>
-          <Text style={styles.denybtntxt}>Deny</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.card1}>
-        <Text style={styles.name}>Fernando</Text>
-        
-        <Image source={require('../../assets/images/profile2.jpg')}
-        style={styles.prof}/>
-        <Icon name="location-on" size={25} style={styles.loc2} />
-        <TouchableOpacity style={styles.acceptbtn}>
-          <Text style={styles.acceptbtntxt}>Accept</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.denybtn}>
-          <Text style={styles.denybtntxt}>Deny</Text>
-        </TouchableOpacity>
-      </View>
-      <View style={styles.card1}>
-        <Text style={styles.name}>Ilyana Rose</Text>
-        
-        <Image source={require('../../assets/images/profile3.png')}
-        style={styles.prof}/>
-        <Icon name="location-on" size={25} style={styles.loc2} />
-        <TouchableOpacity style={styles.acceptbtn}>
-          <Text style={styles.acceptbtntxt}>Accept</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.denybtn}>
-          <Text style={styles.denybtntxt}>Deny</Text>
-        </TouchableOpacity>
-      </View>
+
+      {requests.filter(request => request.status==='pending').map((request) => (
+        <View key={request.id} style={styles.card1}>
+          <View style={styles.cardContent}>
+            <Image source={ request.image } style={styles.prof} />
+            <View style={styles.textContainer}>
+              <Text style={styles.name}>{request.name}</Text>
+              <Text style={styles.requestno}>{request.requestno}</Text>
+              <View style={styles.locationContainer}>
+                <Icon1 name="location-on" size={25} style={styles.loc2} />
+                <Text style={styles.locationText}>{request.location}</Text>
+              </View>
+              <View style={styles.buttonContainer}>
+                <TouchableOpacity 
+                  style={styles.acceptbtn} 
+                  onPress={() => handleAccept(request.id)}
+                >
+                  <Text style={styles.acceptbtntxt}>Accept</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.denybtn}>
+                  <Text style={styles.denybtntxt}>Deny</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </View>
+      ))}
+
       <View style={styles.card2}>
-      <Text style={styles.subt}>Sub Total</Text>
-      <Text style={styles.delt}>Delivery Charge</Text>
-      <View style={styles.line} />
-      <Text style={styles.tot}>Total</Text>
-      {/* <Text style={styles.subtv}>{subTotal}$</Text>
-      <Text style={styles.deltv}>{deliveryCharge}$</Text>
-      <Text style={styles.totv}>{parseFloat(subTotal) + parseFloat(deliveryCharge)}$</Text> */}
+        <Text style={styles.subt}>Sub Total</Text>
+        <Text style={styles.delt}>Delivery Charge</Text>
+        <View style={styles.line} />
+        <Text style={styles.tot}>Total</Text>
       </View>
     </View>
   );
@@ -68,15 +113,22 @@ export default function Driver1Notification({route}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
-    // padding:40,
+    backgroundColor: 'white',
     marginTop: -14,
   },
-  welcometext: {
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginTop: 25,
-    marginLeft: 10,
+    paddingHorizontal: 10,
+  },
+  welcometext: {
     fontSize: 20,
-    fontWeight: "700",
+    fontWeight: '700',
+  },
+  progressBarIcon: {
+    marginRight: 10,
   },
   notifiicon: {
     marginTop: -30,
@@ -85,124 +137,140 @@ const styles = StyleSheet.create({
   },
   loc: {
     marginLeft: 5,
-    color: "purple",
+    color: 'purple',
   },
   not: {
     fontSize: 35,
     marginTop: 5,
     marginLeft: 10,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   card1: {
     marginLeft: 30,
     width: 345,
     height: 135,
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 2,
     borderRadius: 5,
-    backgroundColor: "#f3f2ec",
-    marginTop:15
+    backgroundColor: '#f3f2ec',
+    marginTop: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  cardContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+  },
+  textContainer: {
+    flex: 1,
+    marginLeft: 10,
   },
   name: {
-    fontSize: 28,
-    textAlign: "center",
-    marginLeft:20,
+    fontSize: 22,
+    fontWeight: '500',
+  },
+  requestno: {
+    fontSize: 22,
+    fontWeight: '500',
+  },
+  locationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 5,
+  },
+  loc2: {
+    color: 'purple',
+  },
+  locationText: {
+    fontSize: 18,
+    marginLeft: 5,
+  },
+  buttonContainer: {
+    flexDirection: 'row',
     marginTop: 10,
-    fontWeight: "500",
   },
-  acceptbtn:{
-    backgroundColor:'#00FF0A',
-    padding:5,
-    borderRadius:10,
-    width:90,
-    height:30,
-    marginLeft:140,
-    marginTop:25
-    // marginBottom:5,
-    // marginBottom:10
-},
-  acceptbtntxt:{
-  color:"black",
-  fontWeight:"500",
-  textAlign:'center',
-  fontSize:18
+  acceptbtn: {
+    backgroundColor: '#00FF0A',
+    padding: 5,
+    borderRadius: 10,
+    width: 90,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
   },
-  denybtn:{
-    backgroundColor:'#55CA5C',
-    padding:5,
-    borderRadius:10,
-    width:90,
-    height:30,
-    marginLeft:238,
-    marginTop:-30
-    // marginBottom:5,
-    // marginBottom:10
-},
- denybtntxt:{
-  color:"black",
-  fontWeight:"500",
-  textAlign:'center',
-  fontSize:18
+  acceptbtntxt: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 18,
   },
-  prof:{
-    width:90,
-    height:100,
-    marginTop:-15,
-    marginLeft:10,
-    borderRadius:10
+  denybtn: {
+    backgroundColor: '#FF0000',
+    padding: 5,
+    borderRadius: 10,
+    width: 90,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  loc2:{
-    marginLeft:120,
-    marginTop:-85
+  denybtntxt: {
+    color: 'black',
+    fontWeight: '500',
+    fontSize: 18,
   },
-  card2:{
-    marginTop:10,
+  prof: {
+    width: 90,
+    height: 100,
+    borderRadius: 10,
+  },
+  card2: {
+    marginTop: 10,
     marginLeft: 30,
     width: 345,
     height: 110,
-    borderColor: "black",
+    borderColor: 'black',
     borderWidth: 2,
     borderRadius: 15,
-    backgroundColor: "#00FF0A"
+    backgroundColor: '#00FF0A',
   },
-  subt:{
-    fontSize:23,
-    marginLeft:10,
-    fontWeight:'600'
+  subt: {
+    fontSize: 23,
+    marginLeft: 10,
+    fontWeight: '600',
   },
-  delt:{
-    fontSize:23,
-    marginLeft:10,
-    marginTop:5,
-    fontWeight:'600'
+  delt: {
+    fontSize: 23,
+    marginLeft: 10,
+    marginTop: 5,
+    fontWeight: '600',
   },
-  tot:{
-    fontSize:23,
-    marginLeft:10,
-    marginTop:10,
-    fontWeight:'600'
+  tot: {
+    fontSize: 23,
+    marginLeft: 10,
+    marginTop: 10,
+    fontWeight: '600',
   },
-  subtv:{
-    marginLeft:300,
-    marginTop:-95,
-    fontSize:20
+  subtv: {
+    marginLeft: 300,
+    marginTop: -95,
+    fontSize: 20,
   },
-  deltv:{
-    marginLeft:300,
-    marginTop:8,
-    fontSize:20
+  deltv: {
+    marginLeft: 300,
+    marginTop: 8,
+    fontSize: 20,
   },
-  totv:{
-    marginLeft:300,
-    marginTop:19,
-    fontSize:20
+  totv: {
+    marginLeft: 300,
+    marginTop: 19,
+    fontSize: 20,
   },
   line: {
     height: 2,
-    width:330,
-    backgroundColor: 'black',  // or any color you prefer
-    // marginVertical: 10,  // optional: adds space around the line
-    marginTop:10,
-    marginLeft:8
+    width: 330,
+    backgroundColor: 'black',
+    marginTop: 10,
+    marginLeft: 8,
   },
 });

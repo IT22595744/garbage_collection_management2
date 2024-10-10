@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity} from "react-native";
 import {createUserWithEmailAndPassword} from 'firebase/auth';
-import auth from '../../Services/firebaseAuth';
+import {auth} from '../../Services/firebaseAuth';
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { View } from "react-native-reanimated/lib/typescript/Animated";

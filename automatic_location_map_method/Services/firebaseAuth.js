@@ -15,20 +15,10 @@ const firebaseConfig = {
   messagingSenderId: "1089921828390",
   appId: "1:1089921828390:web:44374cc5ae8c60fdf288e7"
 };
-//creating a authentication variable
-let auth;
-if(getApps().length ==0){
+//creating a authentica
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-//starting the authentication service
-auth=initializeAuth(app,{
-    persistence:getReactNativePersistence(ReactNativeAsyncStorage)
-});
-}
-else{
-    auth=getAuth();
-}
+   const auth=getAuth();
 
-
-export default auth;
+export {auth};

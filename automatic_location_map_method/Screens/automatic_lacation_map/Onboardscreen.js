@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View,Text, StatusBar,Image, TouchableOpacity } from 'react-native';
 import {signOut,onAuthStateChanged} from 'firebase/auth';
-import auth from "../../Services/firebaseAuth";
+import {auth} from "../../Services/firebaseAuth";
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import Icon from 'react-native-vector-icons/MaterialIcons';

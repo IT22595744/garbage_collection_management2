@@ -10,7 +10,7 @@ import Driver1 from '../../Screens/automatic_lacation_map/Driver1Notification';
 import Inputscreen from '../../Screens/automatic_lacation_map/Inputscreen';
 import Loginscreen from '../../Screens/automatic_lacation_map/LoginScreen';
 import Registerscreen from '../../Screens/automatic_lacation_map/RegisterScreen';
-
+import ProgressPage from '../../Screens/automatic_lacation_map/Progresspage';
 
 //we want to declare for stack it contains all loading screens
 const Stack=createNativeStackNavigator();
@@ -23,7 +23,7 @@ export default function HomeScreen() {
     <Stack.Screen name='Registerscreen' component={Registerscreen}/>
     <Stack.Screen name='Driver1' component={Driver1}/>
     <Stack.Screen name='Inputscreen' component={Inputscreen}/>
-
+    <Stack.Screen name='Progresspage' component={ProgressPage}/>
   </Stack.Navigator>
   );
 }
