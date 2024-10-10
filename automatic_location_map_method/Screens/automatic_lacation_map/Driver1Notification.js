@@ -54,11 +54,17 @@ export default function Driver1Notification({ navigation }) {
     // setRequests((prevRequests) =>
       
     // );
+    const acceptedRequest = res.find(request => request.id === id && request.status === 'accepted');
+    if (acceptedRequest) {
+      navigation.navigate('Progresspage', { acceptedRequest });
+    }
   };
 
   const navigateToProgressPage = () => {
-    const acceptedRequests = requests.filter(request => request.accepted);
-    navigation.navigate('Progresspage', { acceptedRequests });
+    const acceptedRequests = requests.filter(request => request.status === 'accepted');
+    if (acceptedRequests.length > 0) {
+      navigation.navigate('Progresspage', { acceptedRequests });
+    }
   };
 
   return (
