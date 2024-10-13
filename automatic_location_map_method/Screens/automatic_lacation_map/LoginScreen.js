@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity} from "react-native";
+import {Text,View,TextInput,StyleSheet, Button,TouchableOpacity,Image} from "react-native";
 import {createUserWithEmailAndPassword} from 'firebase/auth';
 import { signInWithEmailAndPassword,onAuthStateChanged } from "firebase/auth";
 import {auth} from '../../Services/firebaseAuth';
+
 // import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // import { View } from "react-native-reanimated/lib/typescript/Animated";
@@ -48,7 +49,10 @@ export default function LoginScreen({navigation}) {
   }
 
   return (
+    
     <View style={styles.container}>
+       <Image source={require('../../assets/images/recycle-log.png')}
+        style={styles.img1}/> 
   <Text style={styles.title}>Login</Text>
   <TextInput style={styles.input}
   onChangeText={setEmail}
@@ -75,38 +79,54 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f5f5f5',
+    padding: 20,
+    backgroundColor: '#f8f8f8',
+  },
+  img1: {
+    width: 100,
+    height: 100,
+    marginBottom: 30,
   },
   title: {
-    fontSize: 24,
-    fontWeight:"bold",
-    marginBottom: 24,
+    fontSize: 28,
+    fontWeight: 'bold',
     color: '#333',
+    marginBottom: 20,
   },
   input: {
-    width: '80%',
-    height: 40,
-    paddingHorizontal: 8,
-    marginBottom: 16,
+    width: '100%',
+    height: 50,
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 4,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    fontSize: 16,
+    marginBottom: 15,
     backgroundColor: '#fff',
-    
   },
   button: {
-    width: '50%',
-    height: 40,
+    width: '80%',
+    height: 50,
+    backgroundColor: '#007BFF',
+    borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#007BFF',
-    borderRadius: 4,
+    marginBottom: 10,
   },
   buttonText: {
     color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 14,
+    marginTop: 10,
+  },
+  registerText: {
+    color: '#007BFF',
+    marginVertical: 10,
     fontSize: 16,
   },
-
 });
  

@@ -6,6 +6,7 @@ import Icon1 from "react-native-vector-icons/MaterialIcons";
 import img1 from '../../assets/images/profile1.jpg';
 import img2 from '../../assets/images/profile2.jpg';
 import img3 from '../../assets/images/profile3.png';
+import Footer from './Bottomnavigator';
 
 export default function Driver1Notification({ navigation }) {
   const [requests, setRequests] = useState([
@@ -15,6 +16,10 @@ export default function Driver1Notification({ navigation }) {
       { id: 3, name: 'Ilyana Rose', location: '789 Pine St', image: img3, status: 'pending' },
     
   ]);
+
+  const handleQRScanner = () => {
+    navigation.navigate('QRScanner');
+    };
 
   // useEffect(() => {
   //   const fetchRequests = async () => {
@@ -71,6 +76,9 @@ export default function Driver1Notification({ navigation }) {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.welcometext}>Hi, Rock Lee</Text>
+        <TouchableOpacity style={styles.scanButton} onPress={handleQRScanner}>
+                <Image source={require('../../assets/images/QRScanner.jpg')} style={styles.image} />
+            </TouchableOpacity>
         <TouchableOpacity style={styles.progressBarIcon} onPress={navigateToProgressPage}>
           <Icon name="progress-check" size={30} color="#0000ff" />
         </TouchableOpacity>
@@ -112,7 +120,10 @@ export default function Driver1Notification({ navigation }) {
         <View style={styles.line} />
         <Text style={styles.tot}>Total</Text>
       </View>
+      
+      {/* <Footer/> */}
     </View>
+    
   );
 }
 
@@ -132,19 +143,19 @@ const styles = StyleSheet.create({
   welcometext: {
     fontSize: 20,
     fontWeight: '700',
+    marginTop:-25
   },
+  
   progressBarIcon: {
-    marginRight: 10,
+    marginRight: 15,
+    width:40
   },
   notifiicon: {
-    marginTop: -30,
-    marginLeft: 350,
+    marginTop: -65,
+    marginLeft: 360,
     fontSize: 25,
   },
-  loc: {
-    marginLeft: 5,
-    color: 'purple',
-  },
+  
   not: {
     fontSize: 35,
     marginTop: 5,
@@ -279,4 +290,18 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 8,
   },
+  scanButton: {
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginLeft:150
+},
+image: {
+    width: 35,
+    height: 50,
+    resizeMode: 'contain',
+    },
+loc:{
+  marginLeft:190,
+  color:'purple'
+}
 });
